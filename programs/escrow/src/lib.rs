@@ -1,4 +1,12 @@
+pub mod constants;
+pub mod state;
+pub mod instructions;
+
 use anchor_lang::prelude::*;
+
+pub use constants::*;
+pub use instructions::*;
+pub use state::*;
 
 declare_id!("3XnmqxGUYJChbpCwB7MSY1FGqnjUxFei1JoDx9daArea");
 
@@ -6,11 +14,19 @@ declare_id!("3XnmqxGUYJChbpCwB7MSY1FGqnjUxFei1JoDx9daArea");
 pub mod escrow {
     use super::*;
 
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        msg!("Greetings from: {:?}", ctx.program_id);
-        Ok(())
+    pub fn make_offer(
+        ctx: Context<MakeOffer>,
+        id: u64,
+        token_a_offered_amount: u64,
+        token_b_wanted_amount: u64,
+    ) -> Result<()> {
+        instructions::make_offer::send_offered_tokens_to_vault(&ctx, token_a_offered_amount)?;
+        instructions::make_offer::save_offer(ctx, id, token_b_wanted_amount)
+    }
+    
+    pub fn take_offer(ctx: Context<TakeOffer>) -> Result<()> {
+        instructions::take_offer::send_wanted_tokens_to_maker(&ctx)?;
+        instructions::take_offer::withdraw_and_close_vault(ctx)
     }
 }
 
-#[derive(Accounts)]
-pub struct Initialize {}
