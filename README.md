@@ -15,6 +15,27 @@ Better yet, since our program allows Alice and Bob to transact directly with eac
 ## Usage
 
 ### localnet
+This repository is using [Surfpool](https://surfpool.run) as a part of its development workflow.
+
+Install from source:
+
+```console
+# Clone repo
+git clone https://github.com/txtx/surfpool.git
+
+# Set repo as current directory
+cd surfpool
+
+# Build
+cargo surfpool-install
+```
+
+### Start a Surfnet
+
+```console
+surfpool start
+```
+
 `anchor build`
 
 `surfpool start`
